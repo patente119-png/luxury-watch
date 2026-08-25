@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Luxury Smartwatch - Standalone Gold Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@500;700&family=Nanum+Myeongjo:wght@700;800&family=Noto+Sans+KR:wght@400;700;900&family=Noto+Serif+KR:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #020617;
+      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .viewport-wrapper {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .scaler {
+      transform-origin: center center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .watch-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      width: 380px;
+    }
+    .strap-top {
+      width: 192px;
+      height: 96px;
+      background: #091120;
+      border-radius: 24px 24px 0 0;
+      border-top: 1px solid rgba(51, 65, 85, 0.6);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+    .strap-bottom {
+      width: 192px;
+      height: 96px;
+      background: #091120;
+      border-radius: 0 0 24px 24px;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.6);
+      box-shadow: inset 0 -2px 4px rgba(0,0,0,0.8);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-start;
+    }
+    .strap-gradient {
+      width: 100%;
+      height: 32px;
+      background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.8));
+    }
+    .strap-gradient-bottom {
+      width: 100%;
+      height: 32px;
+      background: linear-gradient(to top, transparent, rgba(0,0,0,0.8));
+    }
+    .watch-case-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: -6px 0;
+      z-index: 10;
+      position: relative;
+      width: 100%;
+    }
+    .titanium-frame {
+      width: 380px;
+      height: 430px;
+      border-radius: 60px;
+      padding: 6px;
+      background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 25%, #94a3b8 55%, #e2e8f0 100%);
+      box-shadow: 0 30px 70px -10px rgba(0,0,0,0.95), 0 0 50px rgba(255,255,255,0.15), inset 0 2px 2px #ffffff, inset 0 -2px 4px rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .dial-viewport {
+      width: 100%;
+      height: 100%;
+      border-radius: 54px;
+      background: #000000;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1.5px rgba(255,255,255,0.4), inset 0 15px 25px rgba(255,255,255,0.15), inset 0 -10px 20px rgba(0,0,0,0.8);
+    }
+    
+    .dial-sunray {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.4s ease;
+    }
+    .theme-navy {
+      background: radial-gradient(circle at center, #0f1c3f 0%, #080f24 55%, #02050e 100%) !important;
+    }
+    .theme-golddust {
+      background: radial-gradient(circle at center, #2e2410 0%, #171206 50%, #050401 100%) !important;
+    }
+
+    .dial-custom-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.65;
+      z-index: 1;
+      pointer-events: none;
+      display: none;
+    }
+
+    .top-controls {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      z-index: 40;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2.5px;
+    }
+    .btn-group-row {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+    .btn-custom {
+      background: rgba(15, 23, 42, 0.88);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: #94a3b8;
+      font-size: 7px;
+      font-weight: 700;
+      padding: 2px 4px;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      transition: all 0.2s ease;
+      outline: none;
+      white-space: nowrap;
+    }
+    .btn-custom:hover {
+      border-color: #cbd5e1;
+      color: #f1f5f9;
+    }
+    .btn-preset-active {
+      border-color: #facc15 !important;
+      color: #facc15 !important;
+      background: rgba(30, 41, 59, 0.95) !important;
+    }
+
+    .btn-action-save {
+      background: rgba(16, 185, 129, 0.2) !important;
+      border-color: rgba(16, 185, 129, 0.5) !important;
+      color: #6ee7b7 !important;
+    }
+    .btn-action-share {
+      background: rgba(250, 204, 21, 0.2) !important;
+      border-color: rgba(250, 204, 21, 0.5) !important;
+      color: #fde047 !important;
+    }
+
+    .style-controls-bar {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      border-radius: 5px;
+      padding: 1.5px 3px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.8);
+      flex-shrink: 0;
+    }
+    .style-select {
+      background: rgba(30, 41, 59, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: #e2e8f0;
+      font-size: 7px;
+      font-weight: 600;
+      border-radius: 3px;
+      padding: 0.5px 1px;
+      outline: none;
+      cursor: pointer;
+      max-width: 52px;
+    }
+    .style-color-picker {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      cursor: pointer;
+      background: none;
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .style-color-picker::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+    .style-color-picker::-webkit-color-swatch {
+      border: none;
+      border-radius: 50%;
+    }
+
+    .glass-reflection {
+      position: absolute;
+      inset: 0;
+      border-radius: 54px;
+      background: linear-gradient(125deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 20%, transparent 50%, rgba(255,255,255,0.02) 80%, rgba(255,255,255,0.04) 100%);
+      pointer-events: none;
+      z-index: 30;
+    }
+
+    .watch-toast {
+      position: absolute;
+      top: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid #38bdf8;
+      color: #f8fafc;
+      font-size: 8px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.8);
+      z-index: 60;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .calendar-window {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.69);
+      background: radial-gradient(circle at 50% 0%, #032b43, #02121f);
+      border: 1.5px solid #38bdf8;
+      padding: 5px 16px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Inter', sans-serif;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.9), 0 0 16px rgba(56, 189, 248, 0.4), 0 6px 16px rgba(0,0,0,0.8);
+      z-index: 10;
+    }
+    .cal-year-month {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #f1f5f9;
+      letter-spacing: 1.5px;
+      text-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+    }
+    .cal-divider {
+      width: 1.5px;
+      height: 16px;
+      background: rgba(56, 189, 248, 0.6);
+      border-radius: 1px;
+    }
+    .cal-day-date {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .cal-day-text {
+      font-size: 14px;
+      font-weight: 900;
+      color: #38bdf8;
+      letter-spacing: 0.8px;
+      text-shadow: 0 0 8px rgba(56, 189, 248, 0.8);
+    }
+    .cal-date-num {
+      font-size: 17px;
+      font-weight: 900;
+      color: #ffffff;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.95), 0 0 16px rgba(56, 189, 248, 0.6);
+    }
+
+    .dial-input-container {
+      position: absolute;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 360px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      z-index: 35;
+    }
+    .dial-textarea {
+      width: 100%;
+      height: 145px;
+      background: transparent !important;
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+      padding: 0;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 1.55;
+      color: #38bdf8;
+      text-align: center;
+      resize: none;
+      overflow: hidden !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95), 0 0 12px rgba(0,0,0,0.9);
+      user-select: text;
+      -webkit-user-select: text;
+      transition: font-size 0.2s ease, color 0.2s ease;
+    }
+    .dial-textarea::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+    .dial-textarea:focus {
+      border: none !important;
+      outline: none !important;
+      background: transparent !important;
+    }
+
+    .hand-pivot-container {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+    }
+
+    .hand-hour-wrapper {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 68px;
+      transform-origin: bottom center;
+      z-index: 20;
+    }
+    .hour-gold-tip-wrap {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .hour-gold-tip {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      mix-blend-mode: screen;
+      filter: drop-shadow(0 0 3px #fef08a)
+              drop-shadow(0 0 7px rgba(250, 204, 21, 0.6));
+    }
+
+    .hand-minute-wrapper {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 104px;
+      transform-origin: bottom center;
+      z-index: 21;
+    }
+    .minute-gold-tip-wrap {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .minute-gold-tip {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      mix-blend-mode: screen;
+      filter: drop-shadow(0 0 4px #fef08a)
+              drop-shadow(0 0 9px rgba(250, 204, 21, 0.6));
+    }
+
+    .hand-time-text {
+      position: relative;
+      z-index: 6;
+      font-family: 'Inter', sans-serif;
+      font-weight: 900;
+      color: #ffffff;
+      text-shadow: 0 0 3px #000000, 0 0 6px #000000, 0 0 10px #f59e0b;
+      line-height: 1;
+      text-align: center;
+      user-select: none;
+      transform-origin: center center;
+    }
+    .hour-text {
+      font-size: 11.5px;
+    }
+    .minute-text {
+      font-size: 12px;
+    }
+
+    .hand-second-floating {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 146px;
+      transform-origin: bottom center;
+      z-index: 25;
+    }
+    .second-meteorite-wrap {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      transform-origin: center center;
+    }
+    .second-meteorite {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      mix-blend-mode: screen;
+      pointer-events: none;
+      z-index: 2;
+      filter: drop-shadow(0 0 5px #fef08a)
+              drop-shadow(0 0 13px rgba(250, 204, 21, 0.65))
+              drop-shadow(0 0 23px rgba(234, 179, 8, 0.4));
+      animation: goldGlowPulse 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes goldGlowPulse {
+      0% {
+        filter: drop-shadow(0 0 4px #fef9c3)
+                drop-shadow(0 0 10px rgba(250, 204, 21, 0.5))
+                drop-shadow(0 0 18px rgba(234, 179, 8, 0.3));
+      }
+      100% {
+        filter: drop-shadow(0 0 7px #ffffff)
+                drop-shadow(0 0 16px rgba(253, 224, 71, 0.75))
+                drop-shadow(0 0 28px rgba(234, 179, 8, 0.45));
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="viewport-wrapper">
+    <div class="scaler" id="scalerElement">
+      <div class="watch-container">
+        <div class="strap-top"><div class="strap-gradient"></div></div>
+        
+        <div class="watch-case-row">
+          <div class="titanium-frame">
+            <div class="dial-viewport" id="dialViewport">
+              <div class="glass-reflection"></div>
+              
+              <div class="watch-toast" id="watchToast">설정이 저장되었습니다</div>
+
+              <div class="dial-sunray theme-navy" id="dialSunray">
+                
+                <img id="watchBgImage" class="dial-custom-bg" alt="Watch Background Image">
+                <video id="watchBgVideo" class="dial-custom-bg" autoplay loop muted playsinline></video>
+
+                <div class="top-controls">
+                  <div class="btn-group-row">
+                    <button type="button" class="btn-custom btn-preset-active" id="btnThemeNavy" onclick="setPresetTheme('navy', this)">딥 네이비</button>
+                    <button type="button" class="btn-custom" id="btnThemeGold" onclick="setPresetTheme('golddust', this)">골드 더스트</button>
+                  </div>
+                  
+                  <div class="btn-group-row">
+                    <label for="filePhotoUpload" class="btn-custom">이미지</label>
+                    <input type="file" id="filePhotoUpload" accept="image/*" style="display: none;">
+
+                    <label for="fileVideoUpload" class="btn-custom">동영상</label>
+                    <input type="file" id="fileVideoUpload" accept="video/*" style="display: none;">
+
+                    <label for="fileMeteoriteUpload" class="btn-custom">금 변경</label>
+                    <input type="file" id="fileMeteoriteUpload" accept="image/*" style="display: none;">
+
+                    <button type="button" class="btn-custom btn-action-save" onclick="saveCurrentSettings()">💾 저장</button>
+                    <button type="button" class="btn-custom btn-action-share" onclick="shareToKakao()">💬 공유</button>
+                  </div>
+
+                  <div class="style-controls-bar">
+                    <select id="fontFamilySelect" class="style-select" title="글씨체">
+                      <option value="'Noto Serif KR', serif">명조</option>
+                      <option value="'Noto Sans KR', sans-serif" selected>고딕</option>
+                      <option value="'Nanum Myeongjo', serif">나눔</option>
+                      <option value="'Cinzel', serif">로만</option>
+                      <option value="'JetBrains Mono', monospace">모노</option>
+                    </select>
+
+                    <select id="fontSizeSelect" class="style-select" title="글자 크기">
+                      <option value="9px">9px</option>
+                      <option value="10px">10px</option>
+                      <option value="11px" selected>11px</option>
+                      <option value="12px">12px</option>
+                      <option value="14px">14px</option>
+                      <option value="16px">16px</option>
+                    </select>
+
+                    <input type="color" id="textColorPicker" class="style-color-picker" value="#38bdf8" title="글자 색상">
+                  </div>
+                </div>
+
+                <div class="calendar-window">
+                  <div class="cal-year-month" id="calYearMonth">2026 AUG</div>
+                  <div class="cal-divider"></div>
+                  <div class="cal-day-date">
+                    <span class="cal-day-text" id="calDay">TUE</span>
+                    <span class="cal-date-num" id="calDate">25</span>
+                  </div>
+                </div>
+
+                <div class="dial-input-container">
+                  <textarea class="dial-textarea" id="dialContentInput" rows="5">그대와 나의 존재는 무엇이더냐...?
+우린 서로의 정체를 전혀 모르던 그냥 남남.... 그런데 하룻밤 어찌하여 비를 피해
+그 곳에서 인연을 맺으니 그 것이 나그네인 것을...
+Wanderer....</textarea>
+                </div>
+
+                <div class="hand-pivot-container">
+                  <div class="hand-hour-wrapper" id="mainHourHand">
+                    <div class="hour-gold-tip-wrap">
+                      <img id="hourGoldImg" class="hour-gold-tip gold-sync-target" alt="Hour Gold Tip">
+                      <span id="hourNumText" class="hand-time-text hour-text">12</span>
+                    </div>
+                  </div>
+
+                  <div class="hand-minute-wrapper" id="mainMinuteHand">
+                    <div class="minute-gold-tip-wrap">
+                      <img id="minGoldImg" class="minute-gold-tip gold-sync-target" alt="Minute Gold Tip">
+                      <span id="minNumText" class="hand-time-text minute-text">00</span>
+                    </div>
+                  </div>
+
+                  <div class="hand-second-floating" id="secondHandPivot">
+                    <div class="second-meteorite-wrap" id="secondMeteoriteWrap">
+                      <img id="secGoldImg" class="second-meteorite gold-sync-target" alt="Second Gold Nugget">
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="strap-bottom"><div class="strap-gradient-bottom"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DEFAULT_GOLD_BASE64 = "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3CradialGradient id='goldGlow' cx='35%25' cy='30%25' r='65%25'%3E%3Cstop offset='0%25' stop-color='%23ffffff'/%3E%3Cstop offset='25%25' stop-color='%23fef08a'/%3E%3Cstop offset='55%25' stop-color='%23eab308'/%3E%3Cstop offset='85%25' stop-color='%23a16207'/%3E%3Cstop offset='100%25' stop-color='%23451a03'/%3E%3C/radialGradient%3E%3Cfilter id='roughFacet'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='3' result='noise'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='noise' scale='4' xChannelSelector='R' yChannelSelector='G'/%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M45,12 C62,9 78,22 84,38 C89,52 82,68 76,80 C68,91 48,93 35,88 C20,82 12,68 14,52 C15,36 28,16 45,12 Z' fill='url(%23goldGlow)' filter='url(%23roughFacet)'/%3E%3Cpath d='M35,22 C48,20 62,28 65,40 C58,45 42,42 32,34 Z' fill='%23ffffff' opacity='0.45'/%3E%3C/svg%3E";
+
+    const goldTargets = document.querySelectorAll('.gold-sync-target');
+    goldTargets.forEach(img => {
+      img.src = DEFAULT_GOLD_BASE64;
+    });
+
+    const scaler = document.getElementById('scalerElement');
+    function resizeWatch() {
+      const designW = 380;
+      const designH = 520;
+      const availableW = window.innerWidth * 0.94;
+      const availableH = window.innerHeight * 0.94;
+      const scale = Math.min(availableW / designW, availableH / designH);
+      scaler.style.transform = `scale(${scale})`;
+    }
+    window.addEventListener('resize', resizeWatch);
+    window.addEventListener('orientationchange', resizeWatch);
+    resizeWatch();
+
+    const dialSunray = document.getElementById('dialSunray');
+    const watchBg = document.getElementById('watchBgImage');
+    const watchVideo = document.getElementById('watchBgVideo');
+    const contentInput = document.getElementById('dialContentInput');
+
+    const fontFamilySelect = document.getElementById('fontFamilySelect');
+    const fontSizeSelect = document.getElementById('fontSizeSelect');
+    const textColorPicker = document.getElementById('textColorPicker');
+    const watchToast = document.getElementById('watchToast');
+
+    function showToast(msg) {
+      watchToast.textContent = msg;
+      watchToast.style.opacity = '1';
+      setTimeout(() => {
+        watchToast.style.opacity = '0';
+      }, 2000);
+    }
+
+    function saveCurrentSettings() {
+      localStorage.setItem('watch_content_text', contentInput.value);
+      localStorage.setItem('watch_font_family', fontFamilySelect.value);
+      localStorage.setItem('watch_font_size', fontSizeSelect.value);
+      localStorage.setItem('watch_font_color', textColorPicker.value);
+      showToast('💾 설정이 저장되었습니다!');
+    }
+
+    function shareToKakao() {
+      const currentTheme = localStorage.getItem('watch_theme') || 'navy';
+      const cleanColor = textColorPicker.value.replace('#', '');
+      
+      const currentUrl = new URL(window.location.href);
+      currentUrl.searchParams.set('t', encodeURIComponent(contentInput.value));
+      currentUrl.searchParams.set('theme', currentTheme);
+      currentUrl.searchParams.set('f', fontFamilySelect.value);
+      currentUrl.searchParams.set('s', fontSizeSelect.value);
+      currentUrl.searchParams.set('c', cleanColor);
+
+      const fullShareUrl = currentUrl.toString();
+      const shareText = `[Luxury Smartwatch]\n${contentInput.value}`;
+
+      if (navigator.share) {
+        navigator.share({
+          title: 'Luxury Smartwatch',
+          text: shareText,
+          url: fullShareUrl
+        }).then(() => {
+          showToast('💬 공유 완료');
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(fullShareUrl).then(() => {
+          showToast('📋 상대방 공유용 링크가 복사되었습니다!');
+        }).catch(() => {
+          showToast('공유 링크 생성 실패');
+        });
+      }
+    }
+
+    function setPresetTheme(themeName, btnElement) {
+      document.querySelectorAll('.btn-preset-active').forEach(b => b.classList.remove('btn-preset-active'));
+      if (btnElement) btnElement.classList.add('btn-preset-active');
+
+      watchVideo.pause();
+      watchVideo.style.display = 'none';
+      watchBg.style.display = 'none';
+
+      dialSunray.className = 'dial-sunray theme-' + themeName;
+      localStorage.setItem('watch_theme', themeName);
+      localStorage.removeItem('watch_bg_image');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+
+      if (urlParams.has('t')) {
+        const sharedText = decodeURIComponent(urlParams.get('t'));
+        const sharedTheme = urlParams.get('theme') || 'navy';
+        const sharedFont = urlParams.get('f');
+        const sharedSize = urlParams.get('s');
+        const sharedColor = '#' + (urlParams.get('c') || '38bdf8');
+
+        contentInput.value = sharedText;
+        if (sharedFont) { contentInput.style.fontFamily = sharedFont; fontFamilySelect.value = sharedFont; }
+        if (sharedSize) { contentInput.style.fontSize = sharedSize; fontSizeSelect.value = sharedSize; }
+        if (sharedColor) { contentInput.style.color = sharedColor; textColorPicker.value = sharedColor; }
+        
+        dialSunray.className = 'dial-sunray theme-' + sharedTheme;
+        if (sharedTheme === 'golddust') {
+          document.getElementById('btnThemeGold').classList.add('btn-preset-active');
+          document.getElementById('btnThemeNavy').classList.remove('btn-preset-active');
+        }
+      } else {
+        let savedTheme = localStorage.getItem('watch_theme') || 'navy';
+        const savedBgImg = localStorage.getItem('watch_bg_image');
+        const savedGold = localStorage.getItem('watch_gold_image');
+        const savedContent = localStorage.getItem('watch_content_text');
+        const savedFont = localStorage.getItem('watch_font_family');
+        const savedSize = localStorage.getItem('watch_font_size');
+        const savedColor = localStorage.getItem('watch_font_color');
+
+        if (savedContent) contentInput.value = savedContent;
+
+        if (savedFont) {
+          contentInput.style.fontFamily = savedFont;
+          fontFamilySelect.value = savedFont;
+        }
+        if (savedSize) {
+          contentInput.style.fontSize = savedSize;
+          fontSizeSelect.value = savedSize;
+        } else {
+          contentInput.style.fontSize = '11px';
+          fontSizeSelect.value = '11px';
+        }
+        if (savedColor) {
+          contentInput.style.color = savedColor;
+          textColorPicker.value = savedColor;
+        }
+
+        if (savedGold) {
+          goldTargets.forEach(img => { img.src = savedGold; });
+        }
+
+        if (savedBgImg) {
+          watchBg.src = savedBgImg;
+          watchBg.style.display = 'block';
+        } else {
+          dialSunray.className = 'dial-sunray theme-' + savedTheme;
+          if (savedTheme === 'golddust') {
+            document.getElementById('btnThemeGold').classList.add('btn-preset-active');
+            document.getElementById('btnThemeNavy').classList.remove('btn-preset-active');
+          }
+        }
+      }
+    });
+
+    contentInput.addEventListener('input', (e) => {
+      localStorage.setItem('watch_content_text', e.target.value);
+    });
+
+    fontFamilySelect.addEventListener('change', (e) => {
+      contentInput.style.fontFamily = e.target.value;
+      localStorage.setItem('watch_font_family', e.target.value);
+    });
+
+    fontSizeSelect.addEventListener('change', (e) => {
+      contentInput.style.fontSize = e.target.value;
+      localStorage.setItem('watch_font_size', e.target.value);
+    });
+
+    textColorPicker.addEventListener('input', (e) => {
+      contentInput.style.color = e.target.value;
+      localStorage.setItem('watch_font_color', e.target.value);
+    });
+
+    const filePhotoInput = document.getElementById('filePhotoUpload');
+    filePhotoInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          watchVideo.pause();
+          watchVideo.style.display = 'none';
+          
+          watchBg.src = event.target.result;
+          watchBg.style.display = 'block';
+          localStorage.setItem('watch_bg_image', event.target.result);
+          showToast('이미지 배경이 적용되었습니다');
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    const fileVideoInput = document.getElementById('fileVideoUpload');
+    fileVideoInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const fileUrl = URL.createObjectURL(file);
+        watchBg.style.display = 'none';
+        
+        watchVideo.src = fileUrl;
+        watchVideo.style.display = 'block';
+        watchVideo.play();
+        showToast('동영상 배경이 적용되었습니다');
+      }
+    });
+
+    const fileMeteoriteInput = document.getElementById('fileMeteoriteUpload');
+    fileMeteoriteInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          goldTargets.forEach(img => {
+            img.src = event.target.result;
+          });
+          localStorage.setItem('watch_gold_image', event.target.result);
+          showToast('금 운석 이미지가 변경되었습니다');
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    const hourHand = document.getElementById('mainHourHand');
+    const minHand = document.getElementById('mainMinuteHand');
+    const secPivot = document.getElementById('secondHandPivot');
+    const secondMeteoriteWrap = document.getElementById('secondMeteoriteWrap');
+
+    const hourNumText = document.getElementById('hourNumText');
+    const minNumText = document.getElementById('minNumText');
+
+    const calYearMonth = document.getElementById('calYearMonth');
+    const calDay = document.getElementById('calDay');
+    const calDate = document.getElementById('calDate');
+
+    const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+
+    function tickWatch() {
+      const now = new Date();
+      const h = now.getHours();
+      const m = now.getMinutes();
+      const s = now.getSeconds();
+      const ms = now.getMilliseconds();
+
+      const secAngle = ((s + ms / 1000) / 60) * 360;
+      const minAngle = ((m + s / 60) / 60) * 360;
+      const hourAngle = (((h % 12) + m / 60) / 12) * 360;
+
+      secPivot.style.transform = `rotate(${secAngle}deg)`;
+      minHand.style.transform = `rotate(${minAngle}deg)`;
+      hourHand.style.transform = `rotate(${hourAngle}deg)`;
+
+      secondMeteoriteWrap.style.transform = `translate(-50%, -50%) rotate(-${secAngle}deg)`;
+
+      const displayHour = h % 12 === 0 ? 12 : h % 12;
+      const displayMin = String(m).padStart(2, '0');
+
+      hourNumText.innerText = displayHour;
+      minNumText.innerText = displayMin;
+
+      hourNumText.style.transform = `rotate(-${hourAngle}deg)`;
+      minNumText.style.transform = `rotate(-${minAngle}deg)`;
+
+      calYearMonth.innerText = `${now.getFullYear()} ${monthNames[now.getMonth()]}`;
+      calDay.innerText = dayNames[now.getDay()];
+      calDate.innerText = String(now.getDate()).padStart(2, '0');
+
+      requestAnimationFrame(tickWatch);
+    }
+    requestAnimationFrame(tickWatch);
+  </script>
+</body>
+</html>
