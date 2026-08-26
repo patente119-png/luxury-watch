@@ -118,13 +118,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.4s ease;
-    }
-    .theme-navy {
-      background: radial-gradient(circle at center, #0f1c3f 0%, #080f24 55%, #02050e 100%) !important;
-    }
-    .theme-golddust {
-      background: radial-gradient(circle at center, #2e2410 0%, #171206 50%, #050401 100%) !important;
+      background: radial-gradient(circle at center, #0f1c3f 0%, #080f24 55%, #02050e 100%);
     }
 
     .dial-custom-bg {
@@ -139,32 +133,31 @@
       display: none;
     }
 
-    /* 상단 일렬 컨트롤 바 */
     .top-controls {
       position: absolute;
-      top: 10px;
-      left: 10px;
-      right: 10px;
+      top: 8px;
+      left: 8px;
+      right: 8px;
       z-index: 40;
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      gap: 2.5px;
+      gap: 2px;
     }
     .btn-group-row {
       display: flex;
       align-items: center;
-      gap: 2px;
+      gap: 2.5px;
       flex-shrink: 0;
     }
     .btn-custom {
       background: rgba(15, 23, 42, 0.88);
       border: 1px solid rgba(148, 163, 184, 0.4);
       color: #94a3b8;
-      font-size: 7px;
+      font-size: 7.5px;
       font-weight: 700;
-      padding: 2px 4px;
+      padding: 2.5px 4.5px;
       border-radius: 4px;
       cursor: pointer;
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
@@ -177,10 +170,19 @@
       border-color: #cbd5e1;
       color: #f1f5f9;
     }
-    .btn-preset-active {
-      border-color: #facc15 !important;
-      color: #facc15 !important;
-      background: rgba(30, 41, 59, 0.95) !important;
+
+    .chime-select {
+      background: rgba(30, 41, 59, 0.92);
+      border: 1px solid rgba(244, 114, 182, 0.6);
+      color: #fbcfe8;
+      font-size: 7.5px;
+      font-weight: 700;
+      border-radius: 4px;
+      padding: 2px 3px;
+      outline: none;
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
     }
 
     .btn-action-save {
@@ -201,20 +203,15 @@
       background: rgba(250, 204, 21, 0.4) !important;
       color: #ffffff !important;
     }
-    .btn-action-sound {
-      background: rgba(56, 189, 248, 0.2) !important;
-      border-color: rgba(56, 189, 248, 0.5) !important;
-      color: #38bdf8 !important;
-    }
 
     .style-controls-bar {
       display: flex;
       align-items: center;
-      gap: 2px;
+      gap: 1.5px;
       background: rgba(15, 23, 42, 0.92);
       border: 1px solid rgba(148, 163, 184, 0.35);
       border-radius: 5px;
-      padding: 1.5px 3px;
+      padding: 1.5px 2.5px;
       backdrop-filter: blur(6px);
       box-shadow: 0 1px 5px rgba(0, 0, 0, 0.8);
       flex-shrink: 0;
@@ -223,13 +220,13 @@
       background: rgba(30, 41, 59, 0.9);
       border: 1px solid rgba(148, 163, 184, 0.4);
       color: #e2e8f0;
-      font-size: 7px;
+      font-size: 7.5px;
       font-weight: 600;
       border-radius: 3px;
-      padding: 0.5px 1px;
+      padding: 1px 2px;
       outline: none;
       cursor: pointer;
-      max-width: 52px;
+      max-width: 48px;
     }
     .style-color-picker {
       -webkit-appearance: none;
@@ -261,20 +258,19 @@
       z-index: 30;
     }
 
-    /* 알림 토스트 */
     .watch-toast {
       position: absolute;
       top: 36px;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(15, 23, 42, 0.95);
-      border: 1px solid #38bdf8;
+      border: 1.5px solid #38bdf8;
       color: #f8fafc;
-      font-size: 8px;
+      font-size: 8.5px;
       font-weight: 700;
-      padding: 4px 12px;
+      padding: 5px 16px;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.8);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.9);
       z-index: 60;
       opacity: 0;
       pointer-events: none;
@@ -282,7 +278,6 @@
       white-space: nowrap;
     }
 
-    /* 캘린더 윈도우 */
     .calendar-window {
       position: absolute;
       top: 45%;
@@ -331,7 +326,6 @@
       text-shadow: 0 0 10px rgba(255, 255, 255, 0.95), 0 0 16px rgba(56, 189, 248, 0.6);
     }
 
-    /* 텍스트 편지지 영역 */
     .dial-input-container {
       position: absolute;
       bottom: 25px;
@@ -378,7 +372,6 @@
       background: transparent !important;
     }
 
-    /* 바늘 피벗 허브 */
     .hand-pivot-container {
       position: absolute;
       top: 45%;
@@ -469,7 +462,6 @@
       font-size: 12px;
     }
 
-    /* 초침 및 중심 유지 회전 운석 */
     .hand-second-floating {
       position: absolute;
       bottom: 0;
@@ -534,17 +526,13 @@
               
               <div class="watch-toast" id="watchToast">설정이 저장되었습니다</div>
 
-              <div class="dial-sunray theme-navy" id="dialSunray">
+              <div class="dial-sunray" id="dialSunray">
                 
                 <img id="watchBgImage" class="dial-custom-bg" alt="Watch Background Image">
                 <video id="watchBgVideo" class="dial-custom-bg" autoplay loop muted playsinline></video>
 
+                <!-- 상단 컨트롤 바 -->
                 <div class="top-controls">
-                  <div class="btn-group-row">
-                    <button type="button" class="btn-custom btn-preset-active" id="btnThemeNavy" onclick="setPresetTheme('navy', this)">딥 네이비</button>
-                    <button type="button" class="btn-custom" id="btnThemeGold" onclick="setPresetTheme('golddust', this)">골드 더스트</button>
-                  </div>
-                  
                   <div class="btn-group-row">
                     <label for="filePhotoUpload" class="btn-custom">이미지</label>
                     <input type="file" id="filePhotoUpload" accept="image/*" style="display: none;">
@@ -555,7 +543,17 @@
                     <label for="fileMeteoriteUpload" class="btn-custom">금 변경</label>
                     <input type="file" id="fileMeteoriteUpload" accept="image/*" style="display: none;">
 
-                    <button type="button" class="btn-custom btn-action-sound" id="btnSoundToggle" onclick="toggleClockSound()">🔕 소리 OFF</button>
+                    <!-- 정각 사운드 선택 -->
+                    <select id="chimeSelect" class="chime-select" title="정각 소리 선택">
+                      <option value="cuckoo" selected>뻐꾸기</option>
+                      <option value="boing">코믹 뿅망치</option>
+                      <option value="jump">레트로 점프</option>
+                      <option value="coin">골드 코인</option>
+                      <option value="fanfare">팡파르</option>
+                      <option value="pop">팝콘 톡톡</option>
+                      <option value="none">무음</option>
+                    </select>
+
                     <button type="button" class="btn-custom btn-action-save" onclick="saveCurrentSettings()">💾 저장</button>
                     <button type="button" class="btn-custom btn-action-share" onclick="shareToKakao()">💬 공유</button>
                   </div>
@@ -631,6 +629,7 @@ Wanderer....</textarea>
   </div>
 
   <script>
+    // 내장 황금빛 벡터 텍스처
     const DEFAULT_GOLD_BASE64 = "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3CradialGradient id='goldGlow' cx='35%25' cy='30%25' r='65%25'%3E%3Cstop offset='0%25' stop-color='%23ffffff'/%3E%3Cstop offset='25%25' stop-color='%23fef08a'/%3E%3Cstop offset='55%25' stop-color='%23eab308'/%3E%3Cstop offset='85%25' stop-color='%23a16207'/%3E%3Cstop offset='100%25' stop-color='%23451a03'/%3E%3C/radialGradient%3E%3Cfilter id='roughFacet'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='3' result='noise'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='noise' scale='4' xChannelSelector='R' yChannelSelector='G'/%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M45,12 C62,9 78,22 84,38 C89,52 82,68 76,80 C68,91 48,93 35,88 C20,82 12,68 14,52 C15,36 28,16 45,12 Z' fill='url(%23goldGlow)' filter='url(%23roughFacet)'/%3E%3Cpath d='M35,22 C48,20 62,28 65,40 C58,45 42,42 32,34 Z' fill='%23ffffff' opacity='0.45'/%3E%3C/svg%3E";
 
     const goldTargets = document.querySelectorAll('.gold-sync-target');
@@ -651,7 +650,6 @@ Wanderer....</textarea>
     window.addEventListener('orientationchange', resizeWatch);
     resizeWatch();
 
-    const dialSunray = document.getElementById('dialSunray');
     const watchBg = document.getElementById('watchBgImage');
     const watchVideo = document.getElementById('watchBgVideo');
     const contentInput = document.getElementById('dialContentInput');
@@ -660,13 +658,10 @@ Wanderer....</textarea>
     const fontSizeSelect = document.getElementById('fontSizeSelect');
     const textColorPicker = document.getElementById('textColorPicker');
     const watchToast = document.getElementById('watchToast');
-    const btnSoundToggle = document.getElementById('btnSoundToggle');
+    const chimeSelect = document.getElementById('chimeSelect');
 
-    // === Web Audio API 기계식 초침 사운드 엔진 ===
     let audioCtx = null;
-    let isSoundEnabled = false;
-
-    function initAudioContext() {
+    function getAudioCtx() {
       if (!audioCtx) {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         audioCtx = new AudioContext();
@@ -674,60 +669,143 @@ Wanderer....</textarea>
       if (audioCtx.state === 'suspended') {
         audioCtx.resume();
       }
+      return audioCtx;
     }
 
-    function playTickSound(isHighTick) {
-      if (!isSoundEnabled) return;
-      try {
-        initAudioContext();
-        if (!audioCtx) return;
+    function soundCuckoo(repeats = 1) {
+      const ctx = getAudioCtx();
+      const count = Math.min(Math.max(repeats, 1), 12);
+      for (let i = 0; i < count; i++) {
+        const t = ctx.currentTime + i * 0.85;
+        const osc1 = ctx.createOscillator();
+        const gain1 = ctx.createGain();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(698.46, t);
+        gain1.gain.setValueAtTime(0.001, t);
+        gain1.gain.linearRampToValueAtTime(0.32, t + 0.04);
+        gain1.gain.exponentialRampToValueAtTime(0.0001, t + 0.22);
+        osc1.connect(gain1); gain1.connect(ctx.destination);
+        osc1.start(t); osc1.stop(t + 0.23);
 
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
+        const t2 = t + 0.24;
+        const osc2 = ctx.createOscillator();
+        const gain2 = ctx.createGain();
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(587.33, t2);
+        gain2.gain.setValueAtTime(0.001, t2);
+        gain2.gain.linearRampToValueAtTime(0.28, t2 + 0.05);
+        gain2.gain.exponentialRampToValueAtTime(0.0001, t2 + 0.45);
+        osc2.connect(gain2); gain2.connect(ctx.destination);
+        osc2.start(t2); osc2.stop(t2 + 0.46);
+      }
+      showToast(`🐦 뻐꾸기가 ${count}번 웁니다`);
+    }
 
-        // 째깍 (Tick / Tack) 주파수 변조
+    function soundBoing() {
+      const ctx = getAudioCtx();
+      const t = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(220, t);
+      osc.frequency.exponentialRampToValueAtTime(880, t + 0.18);
+      osc.frequency.exponentialRampToValueAtTime(320, t + 0.45);
+      gain.gain.setValueAtTime(0.001, t);
+      gain.gain.linearRampToValueAtTime(0.38, t + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.48);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(t); osc.stop(t + 0.5);
+      showToast('🔨 뿅망치 소리가 납니다');
+    }
+
+    function soundJump() {
+      const ctx = getAudioCtx();
+      const t = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(150, t);
+      osc.frequency.exponentialRampToValueAtTime(600, t + 0.16);
+      gain.gain.setValueAtTime(0.001, t);
+      gain.gain.linearRampToValueAtTime(0.25, t + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.18);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(t); osc.stop(t + 0.2);
+      showToast('🕹️ 점프!');
+    }
+
+    function soundCoin() {
+      const ctx = getAudioCtx();
+      const t = ctx.currentTime;
+      const osc1 = ctx.createOscillator();
+      const gain1 = ctx.createGain();
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(987.77, t);
+      gain1.gain.setValueAtTime(0.3, t);
+      gain1.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
+      osc1.connect(gain1); gain1.connect(ctx.destination);
+      osc1.start(t); osc1.stop(t + 0.09);
+
+      const osc2 = ctx.createOscillator();
+      const gain2 = ctx.createGain();
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(1318.51, t + 0.08);
+      gain2.gain.setValueAtTime(0.35, t + 0.08);
+      gain2.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
+      osc2.connect(gain2); gain2.connect(ctx.destination);
+      osc2.start(t + 0.08); osc2.stop(t + 0.46);
+      showToast('🪙 골드 코인 획득!');
+    }
+
+    function soundFanfare() {
+      const ctx = getAudioCtx();
+      const notes = [523.25, 659.25, 783.99, 1046.50];
+      const t = ctx.currentTime;
+      notes.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const noteStart = t + idx * 0.09;
+        const dur = (idx === 3) ? 0.45 : 0.1;
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, noteStart);
+        gain.gain.setValueAtTime(0.001, noteStart);
+        gain.gain.linearRampToValueAtTime(0.32, noteStart + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, noteStart + dur);
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.start(noteStart); osc.stop(noteStart + dur + 0.02);
+      });
+      showToast('🎺 축하 팡파르!');
+    }
+
+    function soundPop() {
+      const ctx = getAudioCtx();
+      const t = ctx.currentTime;
+      function singlePop(time, startFreq, endFreq) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(isHighTick ? 950 : 750, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.028);
-
-        // 짧고 산뜻한 어택 및 페이드아웃 감쇠
-        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.028);
-
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.03);
-      } catch (e) {}
-    }
-
-    function toggleClockSound() {
-      initAudioContext();
-      isSoundEnabled = !isSoundEnabled;
-      updateSoundUI();
-      if (isSoundEnabled) {
-        playTickSound(true);
-        showToast('🔔 초침 소리가 켜졌습니다');
-      } else {
-        showToast('🔕 초침 소리가 꺼졌습니다');
+        osc.frequency.setValueAtTime(startFreq, time);
+        osc.frequency.exponentialRampToValueAtTime(endFreq, time + 0.04);
+        gain.gain.setValueAtTime(0.001, time);
+        gain.gain.linearRampToValueAtTime(0.35, time + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.05);
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.start(time); osc.stop(time + 0.06);
       }
-      localStorage.setItem('watch_sound_enabled', isSoundEnabled ? '1' : '0');
+      singlePop(t, 400, 1200);
+      singlePop(t + 0.08, 600, 1600);
+      singlePop(t + 0.16, 500, 1400);
+      showToast('🍿 팝콘 톡톡!');
     }
 
-    function updateSoundUI() {
-      if (isSoundEnabled) {
-        btnSoundToggle.textContent = '🔔 소리 ON';
-        btnSoundToggle.classList.add('btn-preset-active');
-      } else {
-        btnSoundToggle.textContent = '🔕 소리 OFF';
-        btnSoundToggle.classList.remove('btn-preset-active');
-      }
+    function playChimeByType(type, hourCount = 1) {
+      if (type === 'cuckoo') soundCuckoo(hourCount);
+      else if (type === 'boing') soundBoing();
+      else if (type === 'jump') soundJump();
+      else if (type === 'coin') soundCoin();
+      else if (type === 'fanfare') soundFanfare();
+      else if (type === 'pop') soundPop();
     }
-
-    // 첫 터치/클릭 시 오디오 활성화
-    window.addEventListener('click', () => { if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume(); }, { once: true });
-    window.addEventListener('touchstart', () => { if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume(); }, { once: true });
 
     function showToast(msg) {
       watchToast.textContent = msg;
@@ -742,143 +820,87 @@ Wanderer....</textarea>
       localStorage.setItem('watch_font_family', fontFamilySelect.value);
       localStorage.setItem('watch_font_size', fontSizeSelect.value);
       localStorage.setItem('watch_font_color', textColorPicker.value);
+      localStorage.setItem('watch_chime_type', chimeSelect.value);
       showToast('💾 설정이 저장되었습니다!');
     }
 
+    // 카카오톡에 한글 문구와 깔끔한 1줄 웹 링크로 전달하는 최적화 공유기
     function shareToKakao() {
-      const currentTheme = localStorage.getItem('watch_theme') || 'navy';
-      const cleanColor = textColorPicker.value.replace('#', '');
+      const userText = contentInput.value.trim();
+      const webUrl = 'https://patente119-png.github.io/luxury-watch/';
       
-      const currentUrl = new URL(window.location.origin + window.location.pathname);
-      currentUrl.searchParams.set('t', encodeURIComponent(contentInput.value));
-      currentUrl.searchParams.set('theme', currentTheme);
-      currentUrl.searchParams.set('f', fontFamilySelect.value);
-      currentUrl.searchParams.set('s', fontSizeSelect.value);
-      currentUrl.searchParams.set('c', cleanColor);
+      // 글귀 본문 + 깔끔한 공식 링크 조합
+      const shareMessage = `[Luxury Smartwatch]\n\n${userText}\n\n👉 시계 보기:\n${webUrl}`;
 
-      const fullShareUrl = currentUrl.toString();
-      const shareTitle = 'Luxury Smartwatch';
-      const shareText = `[Luxury Smartwatch]\n${contentInput.value}`;
-
-      if (navigator.share) {
-        navigator.share({
-          title: shareTitle,
-          text: shareText,
-          url: fullShareUrl
-        }).then(() => {
-          showToast('💬 공유 창이 열렸습니다');
-        }).catch((err) => {
-          if (err.name !== 'AbortError') {
-            copyToClipboard(fullShareUrl);
-          }
-        });
-      } else {
-        copyToClipboard(fullShareUrl);
-      }
-    }
-
-    function copyToClipboard(text) {
       if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(text).then(() => {
+        navigator.clipboard.writeText(shareMessage).then(() => {
           showToast('📋 링크 복사 완료! 카톡에 붙여넣으세요');
         }).catch(() => {
-          fallbackCopy(text);
+          fallbackCopyText(shareMessage);
         });
       } else {
-        fallbackCopy(text);
+        fallbackCopyText(shareMessage);
       }
     }
 
-    function fallbackCopy(text) {
-      const tempInput = document.createElement('textarea');
-      tempInput.value = text;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      document.execCommand('copy');
-      document.body.removeChild(tempInput);
-      showToast('📋 링크 복사 완료! 카톡에 붙여넣으세요');
+    function fallbackCopyText(text) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-9999px';
+      textArea.style.top = '0';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showToast('📋 링크 복사 완료! 카톡에 붙여넣으세요');
+      } catch (err) {
+        showToast('링크 복사 완료');
+      }
+      document.body.removeChild(textArea);
     }
 
-    function setPresetTheme(themeName, btnElement) {
-      document.querySelectorAll('.btn-preset-active').forEach(b => b.classList.remove('btn-preset-active'));
-      if (btnElement) btnElement.classList.add('btn-preset-active');
-
-      watchVideo.pause();
-      watchVideo.style.display = 'none';
-      watchBg.style.display = 'none';
-
-      dialSunray.className = 'dial-sunray theme-' + themeName;
-      localStorage.setItem('watch_theme', themeName);
-      localStorage.removeItem('watch_bg_image');
-    }
+    window.addEventListener('click', () => { getAudioCtx(); }, { once: true });
+    window.addEventListener('touchstart', () => { getAudioCtx(); }, { once: true });
 
     window.addEventListener('DOMContentLoaded', () => {
-      const urlParams = new URLSearchParams(window.location.search);
+      const savedBgImg = localStorage.getItem('watch_bg_image');
+      const savedGold = localStorage.getItem('watch_gold_image');
+      const savedContent = localStorage.getItem('watch_content_text');
+      const savedFont = localStorage.getItem('watch_font_family');
+      const savedSize = localStorage.getItem('watch_font_size');
+      const savedColor = localStorage.getItem('watch_font_color');
+      const savedChime = localStorage.getItem('watch_chime_type');
 
-      if (urlParams.has('t')) {
-        const sharedText = decodeURIComponent(urlParams.get('t'));
-        const sharedTheme = urlParams.get('theme') || 'navy';
-        const sharedFont = urlParams.get('f');
-        const sharedSize = urlParams.get('s');
-        const sharedColor = '#' + (urlParams.get('c') || '38bdf8');
+      if (savedContent) contentInput.value = savedContent;
 
-        contentInput.value = sharedText;
-        if (sharedFont) { contentInput.style.fontFamily = sharedFont; fontFamilySelect.value = sharedFont; }
-        if (sharedSize) { contentInput.style.fontSize = sharedSize; fontSizeSelect.value = sharedSize; }
-        if (sharedColor) { contentInput.style.color = sharedColor; textColorPicker.value = sharedColor; }
-        
-        dialSunray.className = 'dial-sunray theme-' + sharedTheme;
-        if (sharedTheme === 'golddust') {
-          document.getElementById('btnThemeGold').classList.add('btn-preset-active');
-          document.getElementById('btnThemeNavy').classList.remove('btn-preset-active');
-        }
+      if (savedFont) {
+        contentInput.style.fontFamily = savedFont;
+        fontFamilySelect.value = savedFont;
+      }
+      if (savedSize) {
+        contentInput.style.fontSize = savedSize;
+        fontSizeSelect.value = savedSize;
       } else {
-        let savedTheme = localStorage.getItem('watch_theme') || 'navy';
-        const savedBgImg = localStorage.getItem('watch_bg_image');
-        const savedGold = localStorage.getItem('watch_gold_image');
-        const savedContent = localStorage.getItem('watch_content_text');
-        const savedFont = localStorage.getItem('watch_font_family');
-        const savedSize = localStorage.getItem('watch_font_size');
-        const savedColor = localStorage.getItem('watch_font_color');
-        const savedSound = localStorage.getItem('watch_sound_enabled');
+        contentInput.style.fontSize = '11px';
+        fontSizeSelect.value = '11px';
+      }
+      if (savedColor) {
+        contentInput.style.color = savedColor;
+        textColorPicker.value = savedColor;
+      }
+      if (savedChime) {
+        chimeSelect.value = savedChime;
+      }
 
-        if (savedContent) contentInput.value = savedContent;
+      if (savedGold) {
+        goldTargets.forEach(img => { img.src = savedGold; });
+      }
 
-        if (savedFont) {
-          contentInput.style.fontFamily = savedFont;
-          fontFamilySelect.value = savedFont;
-        }
-        if (savedSize) {
-          contentInput.style.fontSize = savedSize;
-          fontSizeSelect.value = savedSize;
-        } else {
-          contentInput.style.fontSize = '11px';
-          fontSizeSelect.value = '11px';
-        }
-        if (savedColor) {
-          contentInput.style.color = savedColor;
-          textColorPicker.value = savedColor;
-        }
-
-        if (savedGold) {
-          goldTargets.forEach(img => { img.src = savedGold; });
-        }
-
-        if (savedBgImg) {
-          watchBg.src = savedBgImg;
-          watchBg.style.display = 'block';
-        } else {
-          dialSunray.className = 'dial-sunray theme-' + savedTheme;
-          if (savedTheme === 'golddust') {
-            document.getElementById('btnThemeGold').classList.add('btn-preset-active');
-            document.getElementById('btnThemeNavy').classList.remove('btn-preset-active');
-          }
-        }
-
-        if (savedSound === '1') {
-          isSoundEnabled = true;
-          updateSoundUI();
-        }
+      if (savedBgImg) {
+        watchBg.src = savedBgImg;
+        watchBg.style.display = 'block';
       }
     });
 
@@ -899,6 +921,13 @@ Wanderer....</textarea>
     textColorPicker.addEventListener('input', (e) => {
       contentInput.style.color = e.target.value;
       localStorage.setItem('watch_font_color', e.target.value);
+    });
+
+    chimeSelect.addEventListener('change', (e) => {
+      const selected = e.target.value;
+      localStorage.setItem('watch_chime_type', selected);
+      const currentH = new Date().getHours() % 12 || 12;
+      playChimeByType(selected, currentH);
     });
 
     const filePhotoInput = document.getElementById('filePhotoUpload');
@@ -964,7 +993,7 @@ Wanderer....</textarea>
     const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
     const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
-    let lastSecond = -1;
+    let lastCheckedHour = -1;
 
     function tickWatch() {
       const now = new Date();
@@ -973,10 +1002,14 @@ Wanderer....</textarea>
       const s = now.getSeconds();
       const ms = now.getMilliseconds();
 
-      // 초가 바뀔 때마다 째깍 소리 재생 (짝수 초/홀수 초 피치 미세 분기)
-      if (s !== lastSecond) {
-        playTickSound(s % 2 === 0);
-        lastSecond = s;
+      // 매시 정각(00분 00초) 선택된 사운드 자동 울림
+      if (m === 0 && s === 0 && h !== lastCheckedHour) {
+        const chimeTimes = h % 12 || 12;
+        playChimeByType(chimeSelect.value, chimeTimes);
+        lastCheckedHour = h;
+      }
+      if (m !== 0) {
+        lastCheckedHour = -1;
       }
 
       const secAngle = ((s + ms / 1000) / 60) * 360;
