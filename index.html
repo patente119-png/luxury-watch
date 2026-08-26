@@ -139,6 +139,7 @@
       display: none;
     }
 
+    /* 상단 일렬 컨트롤 바 */
     .top-controls {
       position: absolute;
       top: 10px;
@@ -200,6 +201,11 @@
       background: rgba(250, 204, 21, 0.4) !important;
       color: #ffffff !important;
     }
+    .btn-action-sound {
+      background: rgba(56, 189, 248, 0.2) !important;
+      border-color: rgba(56, 189, 248, 0.5) !important;
+      color: #38bdf8 !important;
+    }
 
     .style-controls-bar {
       display: flex;
@@ -255,6 +261,7 @@
       z-index: 30;
     }
 
+    /* 알림 토스트 */
     .watch-toast {
       position: absolute;
       top: 36px;
@@ -275,6 +282,7 @@
       white-space: nowrap;
     }
 
+    /* 캘린더 윈도우 */
     .calendar-window {
       position: absolute;
       top: 45%;
@@ -323,6 +331,7 @@
       text-shadow: 0 0 10px rgba(255, 255, 255, 0.95), 0 0 16px rgba(56, 189, 248, 0.6);
     }
 
+    /* 텍스트 편지지 영역 */
     .dial-input-container {
       position: absolute;
       bottom: 25px;
@@ -369,6 +378,7 @@
       background: transparent !important;
     }
 
+    /* 바늘 피벗 허브 */
     .hand-pivot-container {
       position: absolute;
       top: 45%;
@@ -459,6 +469,7 @@
       font-size: 12px;
     }
 
+    /* 초침 및 중심 유지 회전 운석 */
     .hand-second-floating {
       position: absolute;
       bottom: 0;
@@ -544,6 +555,7 @@
                     <label for="fileMeteoriteUpload" class="btn-custom">금 변경</label>
                     <input type="file" id="fileMeteoriteUpload" accept="image/*" style="display: none;">
 
+                    <button type="button" class="btn-custom btn-action-sound" id="btnSoundToggle" onclick="toggleClockSound()">🔕 소리 OFF</button>
                     <button type="button" class="btn-custom btn-action-save" onclick="saveCurrentSettings()">💾 저장</button>
                     <button type="button" class="btn-custom btn-action-share" onclick="shareToKakao()">💬 공유</button>
                   </div>
@@ -648,6 +660,74 @@ Wanderer....</textarea>
     const fontSizeSelect = document.getElementById('fontSizeSelect');
     const textColorPicker = document.getElementById('textColorPicker');
     const watchToast = document.getElementById('watchToast');
+    const btnSoundToggle = document.getElementById('btnSoundToggle');
+
+    // === Web Audio API 기계식 초침 사운드 엔진 ===
+    let audioCtx = null;
+    let isSoundEnabled = false;
+
+    function initAudioContext() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function playTickSound(isHighTick) {
+      if (!isSoundEnabled) return;
+      try {
+        initAudioContext();
+        if (!audioCtx) return;
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        // 째깍 (Tick / Tack) 주파수 변조
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(isHighTick ? 950 : 750, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.028);
+
+        // 짧고 산뜻한 어택 및 페이드아웃 감쇠
+        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.028);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.03);
+      } catch (e) {}
+    }
+
+    function toggleClockSound() {
+      initAudioContext();
+      isSoundEnabled = !isSoundEnabled;
+      updateSoundUI();
+      if (isSoundEnabled) {
+        playTickSound(true);
+        showToast('🔔 초침 소리가 켜졌습니다');
+      } else {
+        showToast('🔕 초침 소리가 꺼졌습니다');
+      }
+      localStorage.setItem('watch_sound_enabled', isSoundEnabled ? '1' : '0');
+    }
+
+    function updateSoundUI() {
+      if (isSoundEnabled) {
+        btnSoundToggle.textContent = '🔔 소리 ON';
+        btnSoundToggle.classList.add('btn-preset-active');
+      } else {
+        btnSoundToggle.textContent = '🔕 소리 OFF';
+        btnSoundToggle.classList.remove('btn-preset-active');
+      }
+    }
+
+    // 첫 터치/클릭 시 오디오 활성화
+    window.addEventListener('click', () => { if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume(); }, { once: true });
+    window.addEventListener('touchstart', () => { if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume(); }, { once: true });
 
     function showToast(msg) {
       watchToast.textContent = msg;
@@ -686,7 +766,7 @@ Wanderer....</textarea>
           text: shareText,
           url: fullShareUrl
         }).then(() => {
-          showToast('💬 공유 완료');
+          showToast('💬 공유 창이 열렸습니다');
         }).catch((err) => {
           if (err.name !== 'AbortError') {
             copyToClipboard(fullShareUrl);
@@ -760,6 +840,7 @@ Wanderer....</textarea>
         const savedFont = localStorage.getItem('watch_font_family');
         const savedSize = localStorage.getItem('watch_font_size');
         const savedColor = localStorage.getItem('watch_font_color');
+        const savedSound = localStorage.getItem('watch_sound_enabled');
 
         if (savedContent) contentInput.value = savedContent;
 
@@ -792,6 +873,11 @@ Wanderer....</textarea>
             document.getElementById('btnThemeGold').classList.add('btn-preset-active');
             document.getElementById('btnThemeNavy').classList.remove('btn-preset-active');
           }
+        }
+
+        if (savedSound === '1') {
+          isSoundEnabled = true;
+          updateSoundUI();
         }
       }
     });
@@ -878,12 +964,20 @@ Wanderer....</textarea>
     const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
     const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
+    let lastSecond = -1;
+
     function tickWatch() {
       const now = new Date();
       const h = now.getHours();
       const m = now.getMinutes();
       const s = now.getSeconds();
       const ms = now.getMilliseconds();
+
+      // 초가 바뀔 때마다 째깍 소리 재생 (짝수 초/홀수 초 피치 미세 분기)
+      if (s !== lastSecond) {
+        playTickSound(s % 2 === 0);
+        lastSecond = s;
+      }
 
       const secAngle = ((s + ms / 1000) / 60) * 360;
       const minAngle = ((m + s / 60) / 60) * 360;
