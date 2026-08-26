@@ -187,10 +187,18 @@
       border-color: rgba(16, 185, 129, 0.5) !important;
       color: #6ee7b7 !important;
     }
+    .btn-action-save:hover {
+      background: rgba(16, 185, 129, 0.4) !important;
+      color: #ffffff !important;
+    }
     .btn-action-share {
       background: rgba(250, 204, 21, 0.2) !important;
       border-color: rgba(250, 204, 21, 0.5) !important;
       color: #fde047 !important;
+    }
+    .btn-action-share:hover {
+      background: rgba(250, 204, 21, 0.4) !important;
+      color: #ffffff !important;
     }
 
     .style-controls-bar {
@@ -257,7 +265,7 @@
       color: #f8fafc;
       font-size: 8px;
       font-weight: 700;
-      padding: 3px 10px;
+      padding: 4px 12px;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.8);
       z-index: 60;
@@ -646,7 +654,7 @@ Wanderer....</textarea>
       watchToast.style.opacity = '1';
       setTimeout(() => {
         watchToast.style.opacity = '0';
-      }, 2000);
+      }, 2500);
     }
 
     function saveCurrentSettings() {
@@ -661,7 +669,7 @@ Wanderer....</textarea>
       const currentTheme = localStorage.getItem('watch_theme') || 'navy';
       const cleanColor = textColorPicker.value.replace('#', '');
       
-      const currentUrl = new URL(window.location.href);
+      const currentUrl = new URL(window.location.origin + window.location.pathname);
       currentUrl.searchParams.set('t', encodeURIComponent(contentInput.value));
       currentUrl.searchParams.set('theme', currentTheme);
       currentUrl.searchParams.set('f', fontFamilySelect.value);
@@ -669,23 +677,46 @@ Wanderer....</textarea>
       currentUrl.searchParams.set('c', cleanColor);
 
       const fullShareUrl = currentUrl.toString();
+      const shareTitle = 'Luxury Smartwatch';
       const shareText = `[Luxury Smartwatch]\n${contentInput.value}`;
 
       if (navigator.share) {
         navigator.share({
-          title: 'Luxury Smartwatch',
+          title: shareTitle,
           text: shareText,
           url: fullShareUrl
         }).then(() => {
           showToast('💬 공유 완료');
-        }).catch(() => {});
-      } else {
-        navigator.clipboard.writeText(fullShareUrl).then(() => {
-          showToast('📋 상대방 공유용 링크가 복사되었습니다!');
-        }).catch(() => {
-          showToast('공유 링크 생성 실패');
+        }).catch((err) => {
+          if (err.name !== 'AbortError') {
+            copyToClipboard(fullShareUrl);
+          }
         });
+      } else {
+        copyToClipboard(fullShareUrl);
       }
+    }
+
+    function copyToClipboard(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast('📋 링크 복사 완료! 카톡에 붙여넣으세요');
+        }).catch(() => {
+          fallbackCopy(text);
+        });
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const tempInput = document.createElement('textarea');
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      showToast('📋 링크 복사 완료! 카톡에 붙여넣으세요');
     }
 
     function setPresetTheme(themeName, btnElement) {
